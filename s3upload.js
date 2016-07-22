@@ -128,7 +128,7 @@ S3Upload.prototype.uploadToS3 = function(file, signResult) {
     if (this.contentDisposition) {
         var disposition = this.contentDisposition;
         if (disposition === 'auto') {
-            if (file.type.substr(0, 6) === 'image/') {
+            if (file.type.substr(0, 6) === 'image/' || file.type.substr(0, 6) === 'video/') {
                 disposition = 'inline';
             } else {
                 disposition = 'attachment';
@@ -144,9 +144,10 @@ S3Upload.prototype.uploadToS3 = function(file, signResult) {
             var val = uploadRequestHeaders[key];
             xhr.setRequestHeader(key, val);
         });
-    } else {
-        xhr.setRequestHeader('x-amz-acl', 'public-read');
-    }
+      }
+    // } else {
+    //     xhr.setRequestHeader('x-amz-acl', 'public-read');
+    // }
     this.httprequest = xhr;
     return xhr.send(file);
 };
